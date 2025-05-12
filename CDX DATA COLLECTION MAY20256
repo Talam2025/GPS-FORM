@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CDX TOOL - MOLO KMTC</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      background-color: #f2f2f2;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 500px;
+      margin: auto;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 8px;
+      margin-top: 10px;
+      box-sizing: border-box;
+    }
+    #status {
+      font-weight: bold;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <form id="gpsForm">
+    <h2>CDX TOOL - MOLO KMTC</h2>
+    <label for="email">Email *</label>
+    <input type="email" id="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+
+    <label for="group">Group number *</label>
+    <input type="text" id="group" required>
+
+    <label for="household">Household number *</label>
+    <input type="text" id="household" required>
+
+    <label for="village">Village name *</label>
+    <input type="text" id="village" required>
+
+    <label for="gps">GPS Coordinates *</label>
+    <input type="text" id="gps" name="gps" readonly required>
+
+    <div id="status">Fetching location...</div>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    // Fetch GPS on load
+    window.onload = function () {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+          const coords = position.coords.latitude + ", " + position.coords.longitude;
+          document.getElementById("gps").value = coords;
+          document.getElementById("status").innerText = "Location captured.";
+        }, function () {
+          document.getElementById("status").innerText = "Unable to fetch location.";
+        });
+      } else {
+        document.getElementById("status").innerText = "Geolocation is not supported.";
+      }
+    };
+
+    // Handle form submission (replace with your script endpoint)
+    document.getElementById("gpsForm").onsubmit = function (e) {
+      e.preventDefault();
+      alert("Form submitted (you can connect this to Google Sheets via Apps Script).");
+    };
+  </script>
+</body>
+</html>
